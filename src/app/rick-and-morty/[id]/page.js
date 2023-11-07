@@ -4,17 +4,17 @@ import { fetchSingleDataCharacter } from "@/app/api/rickandmorty";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function DetailsMorty() {
+export default function DetailsMorty(params) {
+ 
   const [singleCharacter, setSingleCharacter] = useState(null);
   const [epi , setEpi] = useState([])
   useEffect(() => {
-    const characterid = window.location.href.split("/").pop();
     const fetcdata = async () => {
-      const responseData = await fetchSingleDataCharacter(characterid);
+      const responseData = await fetchSingleDataCharacter(params.params.id);
       setSingleCharacter(responseData);
     };
     fetcdata();
-  }, []);
+  }, [params.params.id]);
   useEffect(() => {
     if (singleCharacter) {
         const fetchEpisodes = async () => {
@@ -36,9 +36,7 @@ export default function DetailsMorty() {
     <div className="w-full flex items-center flex-col bg-slate-950 text-white min-h-screen px-5 py-10">
       {singleCharacter?.id && (
         <div className="flex flex-col items-center">
-          <Image
-            loader={() => singleCharacter.image}
-            src={singleCharacter.image}
+          <img   src={singleCharacter.image}
             alt="ssss"
             width={500}
             height={100}
